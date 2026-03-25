@@ -1,0 +1,1 @@
+Aqui va a ir todo lo relacionado al diseño y se hace casi al final creo xd
