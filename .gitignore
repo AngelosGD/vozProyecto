@@ -1,0 +1,13 @@
+.env
+ 
+backend/temp_audio/
+ 
+*.db
+ 
+# Python
+__pycache__/
+*.pyc
+*.pyo
+ 
+
+ 
