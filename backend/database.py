@@ -49,7 +49,7 @@ def init_db():
 
         conn.commit()
         conn.close()
-        print("✅ Conexión a PostgreSQL exitosa")
+        print("Conexión a PostgreSQL exitosa")
 
     except Exception as e:
-        print(f"❌ Error conectando a PostgreSQL: {e}")
+        print(f"Error conectando a PostgreSQL: {e}")

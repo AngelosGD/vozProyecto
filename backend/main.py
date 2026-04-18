@@ -22,4 +22,4 @@ app.include_router(auth_router, prefix="/api")
 
 @app.get("/") #Ruta por defecto para verificar que la API está activa
 def root():
-    return {"message": "API de reconocimiento de voz activa ✅"}
+    return {"message": "API de reconocimiento de voz activa"}

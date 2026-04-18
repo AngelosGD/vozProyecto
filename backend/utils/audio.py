@@ -29,4 +29,4 @@ def delete_temp_audio(path: Path):
         if path.exists(): #Verifica que el archivo existe
             path.unlink() #Elimina el archivo
     except Exception as e:
-        print(f"⚠️ No se pudo eliminar {path}: {e}")
+        print(f"No se pudo eliminar {path}: {e}")
