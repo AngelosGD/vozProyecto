@@ -255,7 +255,7 @@ class VozAuthApp(ctk.CTk):
                 self.status_sub.configure(text="Intenta de nuevo hablando más claro")
                 self.submit_btn.configure(state="normal", text="Verificar identidad →")
         except Exception:
-            self.show_result("Error conectando al servidor", "error")
+            self.show_result("", "error")
             self.submit_btn.configure(state="normal", text="Verificar identidad →")
 
     def show_admin_screen(self, match_name: str):

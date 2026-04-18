@@ -5,7 +5,7 @@ from database import init_db
 
 app = FastAPI(title="Sistema de Seguridad por Voz")
 
-# Permitir que el frontend se conecte (cualquier origen por ahora)
+# Permite que el frontend se conecte 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -13,13 +13,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Inicializar la base de datos al arrancar
+# Inicializar la base de datos al iniciar la aplicación
 init_db()
 
 # Registrar rutas
 app.include_router(auth_router, prefix="/api")
 
 
-@app.get("/")
+@app.get("/") #Ruta por defecto para verificar que la API está activa
 def root():
     return {"message": "API de reconocimiento de voz activa ✅"}
