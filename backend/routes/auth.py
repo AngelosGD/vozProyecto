@@ -4,8 +4,8 @@ from utils.audio import save_temp_audio, delete_temp_audio
 from model.recognizer import register_voice, login_voice, delete_voice
 
 router = APIRouter()
-
-
+ 
+ 
 # ─── POST /api/usuarios ───────────────────────────────────────────────────────
 @router.post("/usuarios")
 async def crear_usuario(
@@ -41,8 +41,8 @@ async def crear_usuario(
     conn.close()
 
     return {"success": True, "message": f"Usuario '{nombre}' registrado correctamente"}
-
-
+ 
+ 
 # ─── POST /api/login-voz ──────────────────────────────────────────────────────
 @router.post("/login-voz")
 async def login_con_voz(audio: UploadFile = File(...)):
@@ -83,19 +83,19 @@ async def login_con_voz(audio: UploadFile = File(...)):
     conn.close()
 
     return resultado
-
-
+ 
+ 
 # ─── GET /api/usuarios ────────────────────────────────────────────────────────
 @router.get("/usuarios")
 def obtener_usuarios():
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT id, nombre, activo, creado_en FROM usuarios") #Consulta para obtener todos los usuarios
-    rows = cursor.fetchall()
-    conn.close()
-    return [dict(row) for row in rows]
-
-
+    """Lista todos los usuarios registrados."""
+    client = get_client()
+    response = client.table("usuarios") \
+        .select("id, nombre, activo, creado_en") \
+        .execute()
+    return response.data
+ 
+ 
 # ─── GET /api/usuarios/{nombre} ───────────────────────────────────────────────
 @router.get("/usuarios/{nombre}")
 def obtener_usuario(nombre: str):
@@ -110,9 +110,10 @@ def obtener_usuario(nombre: str):
 
     if not row:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
-    return dict(row)
-
-
+ 
+    return response.data[0]
+ 
+ 
 # ─── DELETE /api/usuarios/{nombre} ────────────────────────────────────────────
 @router.delete("/usuarios/{nombre}")
 def eliminar_usuario(nombre: str):
@@ -131,8 +132,8 @@ def eliminar_usuario(nombre: str):
         raise HTTPException(status_code=404, detail="Usuario no encontrado en BD")
 
     return {"success": True, "message": f"Usuario '{nombre}' eliminado"}
-
-
+ 
+ 
 # ─── GET /api/logs ────────────────────────────────────────────────────────────
 @router.get("/logs")
 def obtener_logs():
