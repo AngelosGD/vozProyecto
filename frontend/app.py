@@ -6,7 +6,7 @@ import threading
 import time
 from urllib.parse import quote
 
-# ─── Config ───────────────────────────────────────────────────────────────────
+#  Config 
 API = "http://localhost:8000/api"
 SAMPLE_RATE = 16000
 DURATION = 4
@@ -14,7 +14,7 @@ DURATION = 4
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("green")
 
-# ─── App ──────────────────────────────────────────────────────────────────────
+# App 
 class VozAuthApp(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -30,7 +30,7 @@ class VozAuthApp(ctk.CTk):
 
         self.show_login()
 
-    # ── Crear scroll container ────────────────────────────────────────────────
+    # Crear scroll container 
     def make_scroll(self):
         scroll = ctk.CTkScrollableFrame(self, fg_color="transparent")
         scroll.pack(fill="both", expand=True, padx=0, pady=0)
@@ -40,9 +40,9 @@ class VozAuthApp(ctk.CTk):
         for w in self.winfo_children():
             w.destroy()
 
-    # ═══════════════════════════════════════════════════════════════════════════
+    
     # LOGIN
-    # ═══════════════════════════════════════════════════════════════════════════
+    
     def fetch_users(self):
         try:
             res = requests.get(f"{API}/usuarios")
@@ -123,9 +123,7 @@ class VozAuthApp(ctk.CTk):
                       font=ctk.CTkFont(size=13, weight="bold"),
                       command=self.show_register).pack(pady=(0, 32))
 
-    # ═══════════════════════════════════════════════════════════════════════════
     # REGISTER
-    # ═══════════════════════════════════════════════════════════════════════════
     def show_register(self):
         self.clear()
         self.audio_ready = False
@@ -197,9 +195,7 @@ class VozAuthApp(ctk.CTk):
                       font=ctk.CTkFont(size=13, weight="bold"),
                       command=self.show_login).pack(pady=(0, 32))
 
-    # ═══════════════════════════════════════════════════════════════════════════
     # GRABAR
-    # ═══════════════════════════════════════════════════════════════════════════
     def grabar(self, mode):
         if self.is_recording:
             return
@@ -225,9 +221,7 @@ class VozAuthApp(ctk.CTk):
         self.timer_label.configure(text="")
         self.submit_btn.configure(state="normal")
 
-    # ═══════════════════════════════════════════════════════════════════════════
     # SUBMIT LOGIN
-    # ═══════════════════════════════════════════════════════════════════════════
     def submit_login(self):
         if not self.audio_ready:
             self.show_result("Graba tu voz primero", "error")
@@ -264,7 +258,6 @@ class VozAuthApp(ctk.CTk):
 
         f = self.make_scroll()
 
-        ctk.CTkLabel(f, text="👑", font=ctk.CTkFont(size=56)).pack(pady=(40, 4))
         ctk.CTkLabel(f, text="Bienvenido Admin",
                      font=ctk.CTkFont(size=24, weight="bold")).pack()
         ctk.CTkLabel(f, text=f"Usuario reconocido: {match_name}",
@@ -309,9 +302,7 @@ class VozAuthApp(ctk.CTk):
                       font=ctk.CTkFont(size=14, weight="bold"),
                       command=self.show_login).pack(side="left", expand=True, fill="x", padx=(12, 0))
 
-    # ═══════════════════════════════════════════════════════════════════════════
     # SUBMIT REGISTER
-    # ═══════════════════════════════════════════════════════════════════════════
     def submit_register(self):
         nombre = self.input_nombre.get().strip().lower()
         if not nombre:
@@ -345,7 +336,7 @@ class VozAuthApp(ctk.CTk):
         self.result_label.configure(text=msg, text_color=color)
 
 
-# ─── Main ─────────────────────────────────────────────────────────────────────
+#  Main 
 if __name__ == "__main__":
     app = VozAuthApp()
     app.mainloop()

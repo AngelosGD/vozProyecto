@@ -1,19 +1,9 @@
-import torch
-import torchaudio
-import soundfile as sf
-import numpy as np
-from pathlib import Path
-from speechbrain.inference.speaker import EncoderClassifier
-from speechbrain.utils.fetching import LocalStrategy
-
-# ─── Configuración ────────────────────────────────────────────────────────────
+  
 VOICES_DB_PATH = Path(__file__).parent / "voices_db"
-THRESHOLD = 0.30  # Score mínimo para considerar match (0 a 1)
+THRESHOLD = 0.30  
 
 VOICES_DB_PATH.mkdir(exist_ok=True)
 
-# Se carga el modelo una sola vez (la primera vez descarga ~100MB automático)
-# LocalStrategy.COPY evita el problema de symlinks en Windows
 encoder = EncoderClassifier.from_hparams(
     source="speechbrain/spkrec-ecapa-voxceleb",
     savedir="pretrained_models/spkrec-ecapa-voxceleb",
@@ -21,7 +11,7 @@ encoder = EncoderClassifier.from_hparams(
 )
 
 
-# ─── Funciones principales ────────────────────────────────────────────────────
+#  Funciones principales 
 
 def register_voice(name: str, audio_path: str) -> dict:
     try:
@@ -82,19 +72,16 @@ def delete_voice(name: str) -> dict:
     return {"success": True, "message": f"Voz de '{name}' eliminada"}
 
 
-# ─── Utilidades internas ──────────────────────────────────────────────────────
+#  Utilidades internas 
 
 def _get_embedding(audio_path: str) -> np.ndarray:
-    """Carga un audio y lo convierte en un embedding con soundfile (compatible Windows)."""
     data, fs = sf.read(audio_path, dtype="float32")
 
-    # Si es stereo lo convierte a mono
     if data.ndim > 1:
         data = data.mean(axis=1)
 
     signal = torch.tensor(data).unsqueeze(0)  # shape: [1, samples]
 
-    # Speechbrain espera 16000 Hz
     if fs != 16000:
         resampler = torchaudio.transforms.Resample(fs, 16000)
         signal = resampler(signal)

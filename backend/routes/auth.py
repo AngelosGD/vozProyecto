@@ -6,7 +6,7 @@ from model.recognizer import register_voice, login_voice, delete_voice
 router = APIRouter()
  
  
-# ─── POST /api/usuarios ───────────────────────────────────────────────────────
+#  POST /api/usuarios 
 @router.post("/usuarios")
 async def crear_usuario(
     nombre: str = Form(...),
@@ -42,7 +42,7 @@ async def crear_usuario(
     return {"success": True, "message": f"Usuario '{nombre}' registrado correctamente"}
  
  
-# ─── POST /api/login-voz ──────────────────────────────────────────────────────
+#  POST /api/login-voz 
 @router.post("/login-voz")
 async def login_con_voz(audio: UploadFile = File(...)):
     """
@@ -82,7 +82,7 @@ async def login_con_voz(audio: UploadFile = File(...)):
     return resultado
  
  
-# ─── GET /api/usuarios ────────────────────────────────────────────────────────
+# GET /api/usuarios 
 @router.get("/usuarios")
 def obtener_usuarios():
     """Lista todos los usuarios registrados."""
@@ -93,7 +93,7 @@ def obtener_usuarios():
     return response.data
  
  
-# ─── GET /api/usuarios/{nombre} ───────────────────────────────────────────────
+#  GET /api/usuarios/{nombre} 
 @router.get("/usuarios/{nombre}")
 def obtener_usuario(nombre: str):
     """Obtiene info de un usuario específico."""
@@ -109,7 +109,7 @@ def obtener_usuario(nombre: str):
     return response.data[0]
  
  
-# ─── DELETE /api/usuarios/{nombre} ────────────────────────────────────────────
+#  DELETE /api/usuarios/{nombre} 
 @router.delete("/usuarios/{nombre}")
 def eliminar_usuario(nombre: str):
     """Elimina un usuario de Supabase y su voz registrada."""
@@ -128,7 +128,7 @@ def eliminar_usuario(nombre: str):
     return {"success": True, "message": f"Usuario '{nombre}' eliminado"}
  
  
-# ─── GET /api/logs ────────────────────────────────────────────────────────────
+#  GET /api/logs 
 @router.get("/logs")
 def obtener_logs():
     """Retorna el historial de intentos de acceso."""
