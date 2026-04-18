@@ -10,11 +10,7 @@ from speechbrain.utils.fetching import LocalStrategy
   
   
 VOICES_DB_PATH = Path(__file__).parent / "voices_db"
-<<<<<<< HEAD
 THRESHOLD = 0.20  # Score mínimo para considerar match (0 a 1)
-=======
-THRESHOLD = 0.30  
->>>>>>> efff54607f1a10e9938f9854409b0c3a698a5aa5
 
 VOICES_DB_PATH.mkdir(exist_ok=True)
 

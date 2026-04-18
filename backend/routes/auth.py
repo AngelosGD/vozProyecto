@@ -88,12 +88,14 @@ async def login_con_voz(audio: UploadFile = File(...)):
 # ─── GET /api/usuarios ────────────────────────────────────────────────────────
 @router.get("/usuarios")
 def obtener_usuarios():
-    """Lista todos los usuarios registrados."""
-    client = get_client()
-    response = client.table("usuarios") \
-        .select("id, nombre, activo, creado_en") \
-        .execute()
-    return response.data
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT id, nombre, activo, creado_en FROM usuarios")
+    rows = cursor.fetchall()
+
+    conn.close()
+    return [dict(row) for row in rows]
  
  
 # ─── GET /api/usuarios/{nombre} ───────────────────────────────────────────────
@@ -104,14 +106,14 @@ def obtener_usuario(nombre: str):
     cursor.execute(
         "SELECT id, nombre, activo, creado_en FROM usuarios WHERE nombre = %s",
         (nombre.lower(),)
-    ) #Consulta para obtener un usuario específico por nombre
+    )
     row = cursor.fetchone()
     conn.close()
 
     if not row:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
  
-    return response.data[0]
+    return dict(row)
  
  
 # ─── DELETE /api/usuarios/{nombre} ────────────────────────────────────────────
