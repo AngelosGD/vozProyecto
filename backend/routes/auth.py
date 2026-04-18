@@ -13,8 +13,8 @@ async def crear_usuario(
     audio: UploadFile = File(...) #Recibir un archivo de audio
 ):
     nombre = nombre.strip().lower()
-    conn = get_connection()
-    cursor = conn.cursor()
+    conn = get_connection() #Conexcion a postgreSQL
+    cursor = conn.cursor() #Cursor para ejecutar consultas SQL
 
     #Verificar que no exista el usuario
     cursor.execute("SELECT id FROM usuarios WHERE nombre = %s", (nombre,))
@@ -46,8 +46,8 @@ async def crear_usuario(
 # ─── POST /api/login-voz ──────────────────────────────────────────────────────
 @router.post("/login-voz")
 async def login_con_voz(audio: UploadFile = File(...)):
-    conn = get_connection()
-    cursor = conn.cursor()
+    conn = get_connection() #Conexcion a postgreSQL
+    cursor = conn.cursor() #Cursor para ejecutar consultas SQL
 
     #Guardar audio temporal
     audio_path = await save_temp_audio(audio, "login_temp")
@@ -91,7 +91,7 @@ def obtener_usuarios():
     conn = get_connection()
     cursor = conn.cursor()
 
-    cursor.execute("SELECT id, nombre, activo, creado_en FROM usuarios")
+    cursor.execute("SELECT id, nombre, activo, creado_en FROM usuarios") #Consulta de todos los usuarios registrados
     rows = cursor.fetchall()
 
     conn.close()
@@ -105,9 +105,9 @@ def obtener_usuario(nombre: str):
     cursor = conn.cursor()
     cursor.execute(
         "SELECT id, nombre, activo, creado_en FROM usuarios WHERE nombre = %s",
-        (nombre.lower(),)
+        (nombre.lower(),) #Consulta un usuario en especifico
     )
-    row = cursor.fetchone()
+    row = cursor.fetchone() #Si el usuario existe, devuelve su informacion
     conn.close()
 
     if not row:
